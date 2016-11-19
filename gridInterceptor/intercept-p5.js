@@ -21,7 +21,6 @@ funcNames = funcNames.filter(function(x) {
   return (x["name"] && x["params"] && (className==='p5'));
 })
 
-
 funcNames.forEach(function(x){
   var document = parent.document;
   var originalFunc = p5.prototype[x.name];
