@@ -10,6 +10,7 @@ function fetchJSONFile(path, callback) {
         }
     };
     httpRequest.open('GET', path,false);
+    console.log('test commit');
     httpRequest.send();
 }
 
