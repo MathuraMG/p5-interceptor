@@ -21,10 +21,10 @@ funcNames = funcNames.filter(function(x) {
 funcNames.forEach(function(x) {
   var document = parent.document;
   var originalFunc = p5.prototype[x.name];
-  var byID = document.getElementById;
-  var details = byId('textOutput-content-details');
-  var summary = byId('textOutput-content-summary');
-  var table = byId('textOutput-content-table');
+  var byID = function(id) {var element = document.getElementById(id); return element; };
+  var details = byID('textOutput-content-details');
+  var summary = byID('textOutput-content-summary');
+  var table = byID('textOutput-content-table');
 
   p5.prototype[x.name] = function() {
     orgArg = arguments;
@@ -38,8 +38,7 @@ funcNames.forEach(function(x) {
       Interceptor.populateObject(x, arguments, Interceptor.setupObject, details, false);
       Interceptor.populateObjectDetails
       (Interceptor.setupObject, Interceptor.drawObject, summary, details);
-      var table = details;
-      Interceptor.populateTable(table, Interceptor.setupObject);
+      Interceptor.populateTable(details, Interceptor.setupObject);
     } else if (frameCount % 50 == 0) {
       Interceptor.drawObject =
       Interceptor.populateObject(x, arguments, Interceptor.drawObject, details, true);
