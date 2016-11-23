@@ -30,29 +30,45 @@ var Interceptor = {
       //assuming that we are doing RGB - convert RGB values to a name
       var color = '#' + arguments[0].toString(16).paddingLeft("00") + arguments[1].toString(16).paddingLeft("00") + arguments[2].toString(16).paddingLeft("00");
       var n_match  = ntc.name(color);
-      return n_match[1];
+      var rgb = '(' + arguments[0] + ',' + arguments[1] + ',' + arguments[2] + ')';
+      return ({
+        'color':n_match[1],
+        'rgb':rgb
+        });
     }
     else if(arguments.length==1) {
       if(!(typeof(arguments[0])).localeCompare("number")) {
         //assuming that we are doing RGB - this would be a grayscale number
         if(arguments[0]<10) {
-          return 'black';
+          var rgb  = '(0,0,0)';
+          return ({
+            'color': 'black',
+            'rgb' : rgb
+          });
         }
         else if(arguments[0]>240) {
-          return 'white';
+          var rgb = '(255,255,255)';
+          return ({
+            'color': 'white',
+            'rgb' : rgb
+          });
         }
         else {
-          return 'grey';
+          var rgb = '(' + arguments[0] + ',' + arguments[0] + ',' + arguments[0] + ')';
+          return ({
+            'color': 'grey',
+            'rgb':rgb
+          });
         }
       }
       else if(!(typeof(arguments[0])).localeCompare("string")) {
         if(!arguments[0].charAt(0).localeCompare('#')) {
           //if user has entered a hex color
           var n_match = ntc.name(arguments[0]);
-          return n_match[1];
+          return ({'color': n_match[1]});
         }
         else {
-          return arguments[0];
+          return ({'color': arguments[0]});
         }
       }
     }
@@ -176,12 +192,12 @@ var Interceptor = {
 
     /* for `fill` function */
     if(!x.name.localeCompare('fill')) {
-      this.currentColor = this.getColorName(arguments);
+      this.currentColor = this.getColorName(arguments)['color'] +this.getColorName(arguments)['rgb'] ;
     }
 
     /* for `background` function */
     else if(!x.name.localeCompare('background')) {
-      this.bgColor = this.getColorName(arguments);
+      this.bgColor = this.getColorName(arguments)['color']+this.getColorName(arguments)['rgb'];
     }
 
     /* for 2D functions and text function */
