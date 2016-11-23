@@ -104,7 +104,7 @@ funcNames.forEach(function(x){
         //fn = f0 * (a)n
         currLogFreq = 440 * Math.pow(Math.pow(2,(1/12)),currNote);
         currVol = 0.4;
-        x_coord = frameCount%10 - 5;
+        x_coord = frameCount%16 - 8;
         currVol = 2*objectCount*Math.exp(-((x_coord+2*objectCount)*(x_coord+2*objectCount)));
         currPan = (objects[objectCount-1].xPosCurr/width)*2 - 1;
         oscillatorNode.frequency.value = currLogFreq;
