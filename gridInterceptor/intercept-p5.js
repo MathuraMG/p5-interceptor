@@ -1,5 +1,3 @@
-
-
 funcNames = allData['classitems'].map(function(x) {
   if (x['overloads']) {
     tempParam = x['overloads'][0]['params'];

@@ -1,5 +1,5 @@
-var shadowDOMElement;
-var Interceptor = {
+var shadowDOMElement; // eslint-disable-line
+var Interceptor = { // eslint-disable-line
   prevTotalCount: 0,
   totalCount: 0,
   currentColor: 'white',
@@ -28,19 +28,19 @@ var Interceptor = {
 
   getColorName: function(arguments) {
     if (arguments.length == 3) {
-      //assuming that we are doing RGB - convert RGB values to a name
-      var color = '#' + arguments[0].toString(16).paddingLeft("00")
-        + arguments[1].toString(16).paddingLeft("00")
-        + arguments[2].toString(16).paddingLeft("00");
-      var n_match = ntc.name(color);
+      // assuming that we are doing RGB - convert RGB values to a name
+      var color = '#' + arguments[0].toString(16).paddingLeft('00')
+        + arguments[1].toString(16).paddingLeft('00')
+        + arguments[2].toString(16).paddingLeft('00');
+      var nMatch = ntc.name(color);
       var rgb = '(' + arguments[0] + ',' + arguments[1] + ',' + arguments[2] + ')';
       return ({
-        'color': n_match[1],
+        'color': nMatch[1],
         'rgb': rgb
       });
     } else if (arguments.length == 1) {
-      if (!(typeof(arguments[0])).localeCompare("number")) {
-        //assuming that we are doing RGB - this would be a grayscale number
+      if (!(typeof(arguments[0])).localeCompare('number')) {
+        // assuming that we are doing RGB - this would be a grayscale number
         if (arguments[0] < 10) {
           var rgb = '(0,0,0)';
           return ({
@@ -60,12 +60,12 @@ var Interceptor = {
             'rgb': rgb
           });
         }
-      } else if (!(typeof(arguments[0])).localeCompare("string")) {
+      } else if (!(typeof(arguments[0])).localeCompare('string')) {
         if (!arguments[0].charAt(0).localeCompare('#')) {
-          //if user has entered a hex color
-          var n_match = ntc.name(arguments[0]);
+          // if user has entered a hex color
+          var nMatch = ntc.name(arguments[0]);
           return ({
-            'color': n_match[1]
+            'color': nMatch[1]
           });
         } else {
           return ({
@@ -76,40 +76,39 @@ var Interceptor = {
     }
   },
 
-  /* return which part of the canvas an object os present */
+  // return which part of the canvas an object os present
   canvasAreaLocation: function(x, arguments, canvasX, canvasY) {
-
-    var x_loc, y_loc;
-
+    var xCoord;
+    var yCoord;
     for (var i = 0; i < arguments.length; i++) {
       a = arguments[i];
-      if (x.params[i].description.indexOf("x-coordinate") > -1) {
-        x_loc = a;
-      } else if (x.params[i].description.indexOf("y-coordinate") > -1) {
-        y_loc = a;
+      if (x.params[i].description.indexOf('x-coordinate') > -1) {
+        xCoord = a;
+      } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
+        yCoord = a;
       }
     }
 
-    if (x_loc < 0.4 * canvasX) {
-      if (y_loc < 0.4 * canvasY) {
+    if (xCoord < 0.4 * canvasX) {
+      if (yCoord < 0.4 * canvasY) {
         return 'top left';
-      } else if (y_loc > 0.6 * canvasY) {
+      } else if (yCoord > 0.6 * canvasY) {
         return 'bottom left';
       } else {
         return 'mid left';
       }
-    } else if (x_loc > 0.6 * canvasX) {
-      if (y_loc < 0.4 * canvasY) {
+    } else if (xCoord > 0.6 * canvasX) {
+      if (yCoord < 0.4 * canvasY) {
         return 'top right';
-      } else if (y_loc > 0.6 * canvasY) {
+      } else if (yCoord > 0.6 * canvasY) {
         return 'bottom right';
       } else {
         return 'mid right';
       }
     } else {
-      if (y_loc < 0.4 * canvasY) {
+      if (yCoord < 0.4 * canvasY) {
         return 'top middle';
-      } else if (y_loc > 0.6 * canvasY) {
+      } else if (yCoord > 0.6 * canvasY) {
         return 'bottom middle';
       } else {
         return 'middle';
@@ -119,19 +118,19 @@ var Interceptor = {
 
   /* return which part of the canvas an object os present */
   canvasLocator: function(x, arguments, canvasX, canvasY) {
-    var x_loc, y_loc;
+    var xCoord, yCoord;
     var locX, locY;
     for (var i = 0; i < arguments.length; i++) {
       a = arguments[i];
-      if (x.params[i].description.indexOf("x-coordinate") > -1) {
-        x_loc = a;
-      } else if (x.params[i].description.indexOf("y-coordinate") > -1) {
-        y_loc = a;
+      if (x.params[i].description.indexOf('x-coordinate') > -1) {
+        xCoord = a;
+      } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
+        yCoord = a;
       }
     }
 
-    locX = Math.floor((x_loc / canvasX) * this.noRows);
-    locY = Math.floor((y_loc / canvasY) * this.noCols);
+    locX = Math.floor((xCoord / canvasX) * this.noRows);
+    locY = Math.floor((yCoord / canvasY) * this.noCols);
     if (locX == this.noRows) {
       locX = locX - 1;
     }
@@ -141,8 +140,7 @@ var Interceptor = {
     return ({
       locX: locX,
       locY: locY
-    })
-
+    });
   },
 
   clearVariables: function(object) {
@@ -159,47 +157,39 @@ var Interceptor = {
 
       for (var j = 0; j < this.noCols; j++) {
         var col = document.createElement('td');
-        col.className = "textOutput-cell-content";
+        col.className = 'textOutput-cell-content';
         col.innerHTML = 'test';
         row.appendChild(col);
       }
       contentTable.appendChild(row);
     }
     shadowDOMElement = document.getElementById('textOutput-content');
-
   },
-
   populateObject: function(x, arguments, object, table, isDraw) {
     objectCount = object.objectCount;
     objectArray = object.objectArray;
     objectTypeCount = object.objectTypeCount;
     if (!isDraw) {
-      //check for special function in setup -> createCanvas
+      // check for special function in setup -> createCanvas
       if (!x.name.localeCompare('createCanvas')) {
         this.canvasDetails.width = arguments[0];
         this.canvasDetails.height = arguments[1];
       }
     }
-    /* Here - most of the functions are generalised, but some need specific outputs */
 
-    /* for `fill` function */
     if (!x.name.localeCompare('fill')) {
+      // for `fill` function
       this.currentColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    }
-
-    /* for `background` function */
-    else if (!x.name.localeCompare('background')) {
+    } else if (!x.name.localeCompare('background')) {
+      // for `background` function
       this.bgColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    }
-
-    /* for 2D functions and text function */
-    else if (!x.module.localeCompare('Shape') || !x.module.localeCompare('Typography')
+    } else if (!x.module.localeCompare('Shape') || !x.module.localeCompare('Typography')
     && ((!x.submodule) || (x.submodule.localeCompare('Attributes') != 0))) {
+      // for 2D functions and text function
       this.objectArea = this.getObjectArea(x.name, arguments);
       var canvasLocation = this.canvasAreaLocation(x, arguments, width, height);
       this.coordLoc = this.canvasLocator(x, arguments, width, height);
-
-      /* in case of text, the description should be what is in the content */
+      // in case of text, the description should be what is in the content
       if (x.name.localeCompare('text')) {
         this.objectDescription = x.name;
       } else {
@@ -207,27 +197,25 @@ var Interceptor = {
       }
       objectArray[objectCount] = {
         'type': this.currentColor + ' - ' + this.objectDescription,
-        'location': canvasLocation, //top left vs top right etc
+        'location': canvasLocation, // top left vs top right etc
         'coordLoc': this.coordLoc, // 3,3 vs 5,3 etc
         'area': this.objectArea,
         'co-ordinates': this.coordinates // coordinates of where the objects are drawn
       };
       this.coordinates = [];
 
-
-      /*add the object(shape/text) parameters in objectArray */
+      // add the object(shape/text) parameters in objectArray
       for (var i = 0; i < arguments.length; i++) {
         if (!(typeof(arguments[i])).localeCompare('number')) {
           arguments[i] = round(arguments[i]);
         }
-        if (x.params[i].description.indexOf("x-coordinate") > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'x')
-        } else if (x.params[i].description.indexOf("y-coordinate") > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'y')
+        if (x.params[i].description.indexOf('x-coordinate') > -1) {
+          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'x');
+        } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
+          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'y');
         } else {
           objectArray[objectCount][x.params[i].description] = arguments[i];
         }
-
       }
       if (objectTypeCount[x.name]) {
         objectTypeCount[x.name]++;
@@ -243,16 +231,16 @@ var Interceptor = {
     });
   },
 
-  populateTable: function(objectArray, document_passed) {
+  populateTable: function(objectArray, documentPassed) {
     if (this.totalCount < 100) {
       for (var i = 0; i < objectArray.length; i++) {
         var cellLoc = objectArray[i].coordLoc.locY * this.noRows + objectArray[i].coordLoc.locX;
-        //add link in table
-        var cellLink = document_passed.createElement('a');
+        // add link in table
+        var cellLink = documentPassed.createElement('a');
         cellLink.innerHTML += objectArray[i].type;
         var objectId = '#object' + i;
         cellLink.setAttribute('href', objectId);
-        document_passed.getElementsByClassName('textOutput-cell-content')[cellLoc].appendChild(cellLink);
+        documentPassed.getElementsByClassName('textOutput-cell-content')[cellLoc].appendChild(cellLink);
       }
     }
   },
@@ -268,7 +256,7 @@ var Interceptor = {
     } else if (!objectType.localeCompare('point')) {
       objectArea = 0;
     } else if (!objectType.localeCompare('quad')) {
-      //x1y2+x2y3+x3y4+x4y1−x2y1−x3y2−x4y3−x1y4
+      // x1y2+x2y3+x3y4+x4y1−x2y1−x3y2−x4y3−x1y4
       objectArea = (arguments[0] * arguments[1] + arguments[2] * arguments[3]
         + arguments[4] * arguments[5] + arguments[6] * arguments[7])
         - (arguments[2] * arguments[1] + arguments[4] * arguments[3]
@@ -298,8 +286,7 @@ var Interceptor = {
     }
 
     if (object2.objectCount > 0 || object1.objectCount > 0) {
-
-      totObjectTypeCount = MergeObjRecursive(object1.objectTypeCount, object2.objectTypeCount);
+      totObjectTypeCount = mergeObjRecursive(object1.objectTypeCount, object2.objectTypeCount);
       var keys = Object.keys(totObjectTypeCount);
       for (var i = 0; i < keys.length; i++) {
         elementSummary.innerHTML += totObjectTypeCount[keys[i]] + ' ' + keys[i] + ' ';
@@ -321,7 +308,6 @@ var Interceptor = {
                 objectListItem.innerHTML += object1.objectArray[i][objKeys[j]] + ' ';
               }
             }
-
           }
         }
         for (var i = 0; i < object2.objectArray.length; i++) {
@@ -341,7 +327,6 @@ var Interceptor = {
         }
         elementDetail.appendChild(objectList);
       }
-
     }
   }
 };

@@ -2,7 +2,7 @@ String.prototype.paddingLeft = function (paddingValue) {
    return String(paddingValue + this).slice(-paddingValue.length);
 };
 
-function MergeObjRecursive(obj1, obj2) {
+function mergeObjRecursive(obj1, obj2) {
   var obj3 = {};
   for(p in obj1) {
     obj3[p] = obj1[p];

@@ -16,6 +16,7 @@
       "no-underscore-dangle": 0,
       "max-len": [1, 120, 4],
       "no-var": 0,
+      "one-var": 0,
       "prefer-rest-params": 0,
       "require-jsdoc": 0
   }
