@@ -1,5 +1,6 @@
 /* Based on https://github.com/FreeCodeCamp/freecodecamp/blob/staging/.eslintrc */
 {
+  "extends": "eslint-config-google",
   "ecmaFeatures": {
     "jsx": true
     },
@@ -8,6 +9,14 @@
     "node": true                     // Node.js global variables and Node.js-specific rules
     },
     "rules": {
-      "max-len": [2, 100]
+      "comma-dangle": 0,  // not sure why airbnb turned this on. gross!
+      "indent": [2, 2, {"SwitchCase": 1}],
+      "no-console": 0,
+      "no-alert": 0,
+      "no-underscore-dangle": 0,
+      "max-len": [1, 120, 4],
+      "no-var": 0,
+      "prefer-rest-params": 0,
+      "require-jsdoc": 0
   }
 }
