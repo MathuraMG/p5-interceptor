@@ -97,7 +97,7 @@ funcNames.forEach(function(x){
         }
       }
 
-      if(abs(objects[objectCount-1].xPosDiff>0)||abs(objects[objectCount-1].yPosDiff>0))
+      if(abs(objects[objectCount-1].xPosDiff)>0||abs(objects[objectCount-1].yPosDiff)>0)
       {
 
         currNote = (1-objects[objectCount-1].yPosCurr/height)*(12); // mapping hieghts to notes from 1-100
