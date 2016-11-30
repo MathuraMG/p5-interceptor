@@ -2,28 +2,6 @@ var shadowDOMElement; // eslint-disable-line
 function InterceptorFn() {
   var self = this;
   baseInterceptor.call(self);
-  this.prevTotalCount = 0,
-  this.totalCount = 0,
-  this.currentColor = 'white',
-  this.objectArea = 0,
-  this.objectDescription = '',
-  this.bgColor = 'white',
-  this.coordinates = [],
-  this.canvasDetails = {
-    width: 0,
-    height: 0
-  },
-  this.setupObject = {
-    objectArray: [],
-    objectCount: 0,
-    objectTypeCount: {}
-  },
-  this.drawObject = {
-    objectArray: [],
-    objectCount: 0,
-    objectTypeCount: {}
-  },
-  this.isCleared = false,
   this.noRows = 10,
   this.noCols = 10,
   this.coordLoc = {},
@@ -105,7 +83,7 @@ function InterceptorFn() {
       if (x.name.localeCompare('text')) {
         this.objectDescription = x.name;
       } else {
-        this.objectDescription = arguments[0].substring(0, 20);
+        this.objectDescription = String(arguments[0]).substring(0, 20);
       }
       objectArray[objectCount] = {
         'type': this.currentColor + ' - ' + this.objectDescription,

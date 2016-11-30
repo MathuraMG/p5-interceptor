@@ -1,4 +1,27 @@
 function baseInterceptor() {
+  this.prevTotalCount =  0,
+  this.totalCount =  0,
+  this.currentColor =  'white',
+  this.bgColor =  'white',
+  this.objectArea =  0,
+  this.coordinates =  [],
+  this.objectDescription =  '',
+  this.canvasDetails =  {
+    width: 0,
+    height: 0
+  },
+  this.setupObject = {
+    objectArray: [],
+    objectCount: 0,
+    objectTypeCount: {}
+  },
+  this.drawObject = {
+    objectArray: [],
+    objectCount: 0,
+    objectTypeCount: {}
+  },
+  this.isCleared = false,
+
   this.getColorName = function(arguments) {
     if (arguments.length == 3) {
       // assuming that we are doing RGB - convert RGB values to a name
