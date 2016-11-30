@@ -1,6 +1,6 @@
 /* Based on https://github.com/FreeCodeCamp/freecodecamp/blob/staging/.eslintrc */
 {
-  "extends": "eslint-config-google",
+  # "extends": "eslint-config-google",
   "ecmaFeatures": {
     "jsx": true
     },
@@ -18,6 +18,6 @@
       "no-var": 0,
       "one-var": 0,
       "prefer-rest-params": 0,
-      "require-jsdoc": 0
+      "require-jsdoc": 0,
   }
 }
