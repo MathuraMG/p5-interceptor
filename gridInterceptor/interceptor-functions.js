@@ -67,52 +67,47 @@ function InterceptorFn() {
       }
     }
 
-    if (!x.name.localeCompare('fill')) {
-      // for `fill` function
-      this.currentColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    } else if (!x.name.localeCompare('background')) {
-      // for `background` function
-      this.bgColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    } else if (!x.module.localeCompare('Shape') || !x.module.localeCompare('Typography')
-    && ((!x.submodule) || (x.submodule.localeCompare('Attributes') != 0))) {
-      // for 2D functions and text function
-      this.objectArea = this.getObjectArea(x.name, arguments);
-      var canvasLocation = this.canvasAreaLocation(x, arguments, width, height);
-      this.coordLoc = this.canvasLocator(x, arguments, width, height);
-      // in case of text, the description should be what is in the content
-      if (x.name.localeCompare('text')) {
-        this.objectDescription = x.name;
-      } else {
-        this.objectDescription = String(arguments[0]).substring(0, 20);
-      }
-      objectArray[objectCount] = {
-        'type': this.currentColor + ' - ' + this.objectDescription,
-        'location': canvasLocation, // top left vs top right etc
-        'coordLoc': this.coordLoc, // 3,3 vs 5,3 etc
-        'area': this.objectArea,
-        'co-ordinates': this.coordinates // coordinates of where the objects are drawn
-      };
-      this.coordinates = [];
 
-      // add the object(shape/text) parameters in objectArray
-      for (var i = 0; i < arguments.length; i++) {
-        if (!(typeof(arguments[i])).localeCompare('number')) {
-          arguments[i] = round(arguments[i]);
-        }
-        if (x.params[i].description.indexOf('x-coordinate') > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'x');
-        } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'y');
+    if (!x.module.localeCompare('Shape')) {
+      objectArray[objectCount] = new shapeEntity(x);
+                  // // for 2D functions and text function
+                  // this.objectArea = this.getObjectArea(x.name, arguments);
+                  // var canvasLocation = this.canvasAreaLocation(x, arguments, width, height);
+                  // this.coordLoc = this.canvasLocator(x, arguments, width, height);
+                  // // in case of text, the description should be what is in the content
+                  // if (x.name.localeCompare('text')) {
+                  //   this.objectDescription = x.name;
+                  // } else {
+                  //   this.objectDescription = String(arguments[0]).substring(0, 20);
+                  // }
+                  // objectArray[objectCount] = {
+                  //   'type': this.currentColor + ' - ' + this.objectDescription,
+                  //   'location': canvasLocation, // top left vs top right etc
+                  //   'coordLoc': this.coordLoc, // 3,3 vs 5,3 etc
+                  //   'area': this.objectArea,
+                  //   'co-ordinates': this.coordinates // coordinates of where the objects are drawn
+                  // };
+                  // this.coordinates = [];
+                  //
+                  // // add the object(shape/text) parameters in objectArray
+                  // for (var i = 0; i < arguments.length; i++) {
+                  //   if (!(typeof(arguments[i])).localeCompare('number')) {
+                  //     arguments[i] = round(arguments[i]);
+                  //   }
+                  //   if (x.params[i].description.indexOf('x-coordinate') > -1) {
+                  //     objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'x');
+                  //   } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
+                  //     objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'y');
+                  //   } else {
+                  //     objectArray[objectCount][x.params[i].description] = arguments[i];
+                  //   }
+                  // }
+        if (objectTypeCount[x.name]) {
+          objectTypeCount[x.name]++;
         } else {
-          objectArray[objectCount][x.params[i].description] = arguments[i];
+          objectTypeCount[x.name] = 1;
         }
-      }
-      if (objectTypeCount[x.name]) {
-        objectTypeCount[x.name]++;
-      } else {
-        objectTypeCount[x.name] = 1;
-      }
-      objectCount++;
+        objectCount++;
     }
     return ({
       objectCount: objectCount,
