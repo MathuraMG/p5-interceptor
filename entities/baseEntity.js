@@ -1,5 +1,5 @@
-function BaseEntity(shapeObject,arguments, canvasX, canvasY) {
-  this.type= shapeObject.name ,
+function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
+  this.type= Interceptor.currentColor + object.name ,
   this.location= '' ,
   this.coordinates= '',
   this.isMember = function() {
@@ -14,14 +14,14 @@ function BaseEntity(shapeObject,arguments, canvasX, canvasY) {
     })
   };
 
-  this.getLocation = function(shapeObject, arguments, canvasX, canvasY) { // eslint-disable-line
+  this.getLocation = function(object, arguments, canvasX, canvasY) { // eslint-disable-line
     var xCoord, yCoord;
     for (var i = 0; i < arguments.length; i++) {
       a = arguments[i];
-      if (shapeObject.params[i].description.indexOf('x-coordinate') > -1) {
+      if (object.params[i].description.indexOf('x-coordinate') > -1) {
         xCoord = a;
         this.coordinates += a + 'x,';
-      } else if (shapeObject.params[i].description.indexOf('y-coordinate') > -1) {
+      } else if (object.params[i].description.indexOf('y-coordinate') > -1) {
         yCoord = a;
         this.coordinates += a + 'y';
       }
@@ -55,15 +55,15 @@ function BaseEntity(shapeObject,arguments, canvasX, canvasY) {
   }
 
   /* return which part of the canvas an object os present */
-  this.canvasLocator = function(shapeObject, arguments, canvasX, canvasY) {
+  this.canvasLocator = function(object, arguments, canvasX, canvasY) {
     var xCoord, yCoord;
     var noRows = 10, noCols = 10;
     var locX, locY;
     for (var i = 0; i < arguments.length; i++) {
       a = arguments[i];
-      if (shapeObject.params[i].description.indexOf('x-coordinate') > -1) {
+      if (object.params[i].description.indexOf('x-coordinate') > -1) {
         xCoord = a;
-      } else if (shapeObject.params[i].description.indexOf('y-coordinate') > -1) {
+      } else if (object.params[i].description.indexOf('y-coordinate') > -1) {
         yCoord = a;
       }
     }
@@ -82,3 +82,20 @@ function BaseEntity(shapeObject,arguments, canvasX, canvasY) {
     });
   }
 }
+
+
+BaseEntity.registry = [];
+
+BaseEntity.register = function(entity) {
+  this.registry.push(entity);
+};
+
+BaseEntity.entityFor = function(name) {
+  for (var i = 0; i < this.registry.length; i++) {
+    var entity = this.registry[i];
+
+    if (entity.handles(name)) {
+      return entity;
+    }
+  }
+};

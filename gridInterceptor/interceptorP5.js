@@ -41,19 +41,19 @@ funcNames.forEach(function(x) {
       Interceptor.populateObject(x, arguments, Interceptor.setupObject, details, false);
       Interceptor.populateObjectDetails(Interceptor.setupObject, Interceptor.drawObject, summary, details);
       Interceptor.populateTable(details, Interceptor.setupObject);
-    } else if (frameCount % 50 == 0) {
+    } else if (frameCount % 20 == 0) {
       Interceptor.drawObject =
       Interceptor.populateObject(x, arguments, Interceptor.drawObject, details, true);
       Interceptor.isCleared = false;
-    } else if (frameCount % 50 == 1) { // reset some of the variables
+    } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!Interceptor.isCleared) {
         var cells = document.getElementsByClassName('textOutput-cell-content');
         for (i = 0; i < cells.length; i++) {
           cells[i].innerHTML = '';
         }
+        programObjects = Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray);
         Interceptor.populateObjectDetails(Interceptor.setupObject, Interceptor.drawObject, summary, details);
-        Interceptor.populateTable(Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray),
-        document);
+        Interceptor.populateTable(programObjects,document);
       }
       Interceptor.drawObject = Interceptor.clearVariables(Interceptor.drawObject);
     }

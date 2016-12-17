@@ -25,51 +25,21 @@ function InterceptorFn() { // eslint-disable-line
       this.currentColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
     } else if (!x.name.localeCompare('background')) {
       this.bgColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    } else if (!x.module.localeCompare('Shape') || !x.module.localeCompare('Typography')
-    && ((!x.submodule) || (x.submodule.localeCompare('Attributes') != 0))) {
-      this.objectArea = this.getObjectArea(x.name, arguments);
-      var canvasLocation = this.canvasAreaLocation(x, arguments, width, height);
-      if (x.name.localeCompare('text')) {
-        this.objectDescription = x.name;
-      } else {
-        this.objectDescription = String(arguments[0]).substring(0, 20);
-      }
-
-      this.coordinates = [];
-
-      objectArray[objectCount] = {
-        'type': this.currentColor + ' colored ' + this.objectDescription,
-        'location': canvasLocation,
-        'area': this.objectArea,
-        'co-ordinates': this.coordinates
-      };
-
-      // make edits if it is a text object
-      if (!x.name.localeCompare('text')) {
-        objectArray[objectCount]['type'] = this.objectDescription;
-        objectArray[objectCount]['color of text'] = this.currentColor;
-      }
-
-      // add the object(shape/text) parameters in objectArray
-      for (var i = 0; i < arguments.length; i++) {
-        if (!(typeof(arguments[i])).localeCompare('number')) {
-          arguments[i] = round(arguments[i]);
-        }
-        if (x.params[i].description.indexOf('x-coordinate') > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'x');
-        } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
-          objectArray[objectCount]['co-ordinates'].push(arguments[i] + 'y');
-        } else {
-          objectArray[objectCount][x.params[i].description] = arguments[i];
-        }
-      }
-      if (objectTypeCount[x.name]) {
-        objectTypeCount[x.name]++;
-      } else {
-        objectTypeCount[x.name] = 1;
-      }
-      objectCount++;
     }
+
+    var entityClass = BaseEntity.entityFor(x.name);
+
+    if (entityClass) {
+      objectArray[objectCount] = new entityClass(this,x,arguments,this.canvasDetails.width,this.canvasDetails.height);
+
+        if (objectTypeCount[x.name]) {
+          objectTypeCount[x.name]++;
+        } else {
+          objectTypeCount[x.name] = 1;
+        }
+        objectCount++;
+    }
+
     return ({
       objectCount: objectCount,
       objectArray: objectArray,
@@ -83,7 +53,7 @@ function InterceptorFn() { // eslint-disable-line
         for (var j = 0; j < this.totalCount; j++) {
           var row = table.children[j];
           var tempCol = row.children.length;
-          var properties = Object.keys(objectArray[j]);
+          var properties = Object.keys(objectArray[j].getAttributes());
 
           if (tempCol < properties.length) { // ie - there are more cols now
             for (var i = 0; i < tempCol; i++) {
@@ -125,7 +95,7 @@ function InterceptorFn() { // eslint-disable-line
         for (var j = 0; j < this.prevTotalCount; j++) {
           var row = table.children[j];
           var tempCol = row.children.length;
-          var properties = Object.keys(objectArray[j]);
+          var properties = Object.keys(objectArray[j].getAttributes());
 
           if (tempCol < properties.length) { // ie - there are more cols now
             for (var i = 0; i <= tempCol; i++) {
@@ -162,7 +132,7 @@ function InterceptorFn() { // eslint-disable-line
         for (var j = this.prevTotalCount; j < this.totalCount; j++) {
           var row = document.createElement('tr');
           row.id = 'object' + j;
-          var properties = Object.keys(objectArray[j]);
+          var properties = Object.keys(objectArray[j].getAttributes());
           for (var i = 0; i < properties.length; i++) {
             var col = document.createElement('td');
             if (properties[i].localeCompare('type')) {

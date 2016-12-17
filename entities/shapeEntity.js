@@ -1,7 +1,8 @@
-function ShapeEntity(shapeObject,arguments, canvasX, canvasY) {
+function ShapeEntity(Interceptor,shapeObject,arguments, canvasX, canvasY) {
   var self = this;
   BaseEntity.call(self,shapeObject,arguments, canvasX, canvasY);
   this.area = 0;
+  this.type = Interceptor.currentColor + shapeObject.name;
 
   this.populate = function(shapeObject, arguments, canvasX, canvasY) {
     this.location = this.getLocation(shapeObject, arguments, canvasX, canvasY);
@@ -45,5 +46,21 @@ function ShapeEntity(shapeObject,arguments, canvasX, canvasY) {
     return objectArea;
   }
 
-
+  this.populate(shapeObject,arguments, canvasX, canvasY);
 }
+
+ShapeEntity.handledNames = [
+  'arc',
+  'ellipse',
+  'line',
+  'point',
+  'quad',
+  'rect',
+  'triangle'
+]
+
+ShapeEntity.handles = function(name) {
+  return (this.handledNames.indexOf(name) >= 0);
+}
+
+BaseEntity.register(ShapeEntity);
