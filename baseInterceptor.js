@@ -23,7 +23,7 @@ function baseInterceptor() {
   this.isCleared = false,
 
   this.getColorName = function(arguments) {
-    if (arguments.length == 3) {
+    if (arguments.length >= 3) {
       // assuming that we are doing RGB - convert RGB values to a name
       var color = '#' + arguments[0].toString(16).paddingLeft('00')
         + arguments[1].toString(16).paddingLeft('00')
@@ -60,12 +60,22 @@ function baseInterceptor() {
         if (!arguments[0].charAt(0).localeCompare('#')) {
           // if user has entered a hex color
           var nMatch = ntc.name(arguments[0]);
+          var r = parseInt(arguments[0].charAt(1)+arguments[0].charAt(2),16);
+          var g = parseInt(arguments[0].charAt(3)+arguments[0].charAt(4),16);
+          var b = parseInt(arguments[0].charAt(5)+arguments[0].charAt(6),16);
+          var rgb = '('+r+ ','+g+ ','+b+')';
           return ({
-            'color': nMatch[1]
+            'color': nMatch[1],
+            'rgb': rgb
           });
         } else {
+          // if user has entered a color in string
+          console.log('*************');
+          console.log(arguments[0]);
+          console.log('*************');
           return ({
-            'color': arguments[0]
+            'color': arguments[0],
+            'rgb': ''
           });
         }
       }
