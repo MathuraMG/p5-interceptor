@@ -6,33 +6,6 @@ function InterceptorFn() {
   this.noCols = 10,
   this.coordLoc = {},
 
-  /* return which part of the canvas an object os present */
-  this.canvasLocator = function(x, arguments, canvasX, canvasY) {
-    var xCoord, yCoord;
-    var locX, locY;
-    for (var i = 0; i < arguments.length; i++) {
-      a = arguments[i];
-      if (x.params[i].description.indexOf('x-coordinate') > -1) {
-        xCoord = a;
-      } else if (x.params[i].description.indexOf('y-coordinate') > -1) {
-        yCoord = a;
-      }
-    }
-
-    locX = Math.floor((xCoord / canvasX) * this.noRows);
-    locY = Math.floor((yCoord / canvasY) * this.noCols);
-    if (locX == this.noRows) {
-      locX = locX - 1;
-    }
-    if (locY == this.noCols) {
-      locY = locY - 1;
-    }
-    return ({
-      locX: locX,
-      locY: locY
-    });
-  },
-
   this.clearVariables = function(object) {
     object.objectTypeCount = {};
     object.objectCount = 0;
@@ -69,10 +42,11 @@ function InterceptorFn() {
 
 
     if (!x.module.localeCompare('Shape')) {
-      objectArray[objectCount] = new shapeEntity(x);
+      objectArray[objectCount] = new ShapeEntity(x,arguments,this.canvasDetails.width,this.canvasDetails.height);
+      objectArray[objectCount].populate(x, arguments, this.canvasDetails.width,this.canvasDetails.height)
                   // // for 2D functions and text function
                   // this.objectArea = this.getObjectArea(x.name, arguments);
-                  // var canvasLocation = this.canvasAreaLocation(x, arguments, width, height);
+                  // var canvasLocation = this.canvcoordLocasAreaLocation(x, arguments, width, height);
                   // this.coordLoc = this.canvasLocator(x, arguments, width, height);
                   // // in case of text, the description should be what is in the content
                   // if (x.name.localeCompare('text')) {
@@ -119,8 +93,10 @@ function InterceptorFn() {
   this.populateTable = function(objectArray, documentPassed) {
     if (this.totalCount < 100) {
       for (var i = 0; i < objectArray.length; i++) {
+        console.log(objectArray[0].coordLoc.locY);
         var cellLoc = objectArray[i].coordLoc.locY * this.noRows + objectArray[i].coordLoc.locX;
         // add link in table
+
         var cellLink = documentPassed.createElement('a');
         cellLink.innerHTML += objectArray[i].type;
         var objectId = '#object' + i;
@@ -158,7 +134,7 @@ function InterceptorFn() {
           var objectListItem = document.createElement('li');
           objectListItem.id = 'object' + i;
           objectList.appendChild(objectListItem);
-          var objKeys = Object.keys(object1.objectArray[i]);
+          var objKeys = Object.keys(object1.objectArray[i].getAttributes());
           for (var j = 0; j < objKeys.length; j++) {
             if (objKeys[j].localeCompare('coordLoc')) {
               if (objKeys[j].localeCompare('type')) {
@@ -170,10 +146,11 @@ function InterceptorFn() {
           }
         }
         for (var i = 0; i < object2.objectArray.length; i++) {
+
           var objectListItem = document.createElement('li');
           objectListItem.id = 'object' + (object1.objectArray.length + i);
           objectList.appendChild(objectListItem);
-          var objKeys = Object.keys(object2.objectArray[i]);
+          var objKeys = Object.keys(object2.objectArray[i].getAttributes());
           for (var j = 0; j < objKeys.length; j++) {
             if (objKeys[j].localeCompare('coordLoc')) {
               if (objKeys[j].localeCompare('type')) {
