@@ -1,5 +1,5 @@
 var shadowDOMElement; // eslint-disable-line
-function InterceptorFn() {
+function gridInterceptor() {
   var self = this;
   baseInterceptor.call(self);
   this.noRows = 10,
@@ -138,4 +138,4 @@ function InterceptorFn() {
   }
 };
 
-var Interceptor = new InterceptorFn();
+var Interceptor = new gridInterceptor();

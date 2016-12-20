@@ -1,4 +1,4 @@
-function InterceptorFn() { // eslint-disable-line
+function textInterceptor() { // eslint-disable-line
   var self = this;
   baseInterceptor.call(self);
 
@@ -192,4 +192,4 @@ function InterceptorFn() { // eslint-disable-line
   }
 };
 
-var Interceptor = new InterceptorFn();
+var Interceptor = new textInterceptor();
