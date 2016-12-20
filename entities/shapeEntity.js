@@ -63,4 +63,6 @@ ShapeEntity.handles = function(name) {
   return (this.handledNames.indexOf(name) >= 0);
 }
 
+ShapeEntity.isParameter = false;
+
 BaseEntity.register(ShapeEntity);

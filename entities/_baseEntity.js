@@ -90,6 +90,8 @@ BaseEntity.register = function(entity) {
   this.registry.push(entity);
 };
 
+BaseEntity.isParameter = false;
+
 BaseEntity.entityFor = function(name) {
   for (var i = 0; i < this.registry.length; i++) {
     var entity = this.registry[i];

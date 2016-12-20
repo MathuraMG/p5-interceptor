@@ -69,10 +69,6 @@ function baseInterceptor() {
             'rgb': rgb
           });
         } else {
-          // if user has entered a color in string
-          console.log('*************');
-          console.log(arguments[0]);
-          console.log('*************');
           return ({
             'color': arguments[0],
             'rgb': ''

@@ -27,4 +27,6 @@ TextEntity.handles = function(name) {
   return (this.handledNames.indexOf(name) >= 0);
 }
 
+TextEntity.isParameter = false;
+
 BaseEntity.register(TextEntity);

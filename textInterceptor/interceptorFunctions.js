@@ -20,16 +20,10 @@ function InterceptorFn() { // eslint-disable-line
         this.canvasDetails.height = arguments[1];
       }
     }
-    // check for speacial functions in general -> background/fill
-    if (!x.name.localeCompare('fill')) {
-      this.currentColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    } else if (!x.name.localeCompare('background')) {
-      this.bgColor = this.getColorName(arguments)['color'] + this.getColorName(arguments)['rgb'];
-    }
 
     var entityClass = BaseEntity.entityFor(x.name);
 
-    if (entityClass) {
+    if (entityClass && !entityClass.isParameter) {
       objectArray[objectCount] = new entityClass(this,x,arguments,this.canvasDetails.width,this.canvasDetails.height);
 
         if (objectTypeCount[x.name]) {
@@ -39,7 +33,9 @@ function InterceptorFn() { // eslint-disable-line
         }
         objectCount++;
     }
-
+    else if(entityClass && entityClass.isParameter) {
+      new entityClass(this,x,arguments,this.canvasDetails.width,this.canvasDetails.height);
+    }
     return ({
       objectCount: objectCount,
       objectArray: objectArray,

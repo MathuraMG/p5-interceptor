@@ -1,19 +1,9 @@
 function FillEntity(Interceptor,shapeObject,arguments, canvasX, canvasY) {
   var self = this;
-  // BaseEntity.call(self,shapeObject,arguments, canvasX, canvasY);
-  // this.type = String(arguments[0]).substring(0, 20);
-
+  var passedArguments = arguments;
   this.populate = function(Interceptor) {
-    console.log(Interceptor)
+    Interceptor.currentColor = Interceptor.getColorName(passedArguments)['color'] + Interceptor.getColorName(passedArguments)['rgb'];
   }
-
-  // this.getAttributes = function() {
-  //   return({
-  //     type: this.type,
-  //     location: this.location,
-  //     coordinates: this.coordinates,
-  //   })
-  // };
 
   this.populate(Interceptor);
 }
@@ -24,5 +14,7 @@ FillEntity.handledNames = [
 FillEntity.handles = function(name) {
   return (this.handledNames.indexOf(name) >= 0);
 }
+
+FillEntity.isParameter = true;
 
 BaseEntity.register(FillEntity);
