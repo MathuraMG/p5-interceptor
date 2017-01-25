@@ -160,14 +160,13 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
   if (object2.objectCount > 0 || object1.objectCount > 0) {
     totObjectTypeCount = mergeObjRecursive(object1.objectTypeCount, object2.objectTypeCount);
     var keys = Object.keys(totObjectTypeCount);
-    for (var i = 0; i < keys.length; i++) {
-      element.innerHTML += totObjectTypeCount[keys[i]] + ' ' + keys[i] + ' ';
-    }
-
+    keys.forEach(function(key){
+        element.innerHTML += totObjectTypeCount[key] + ' ' + key + ' ';
+    });
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
-
+      i=0;
       object1.objectArray.forEach(function(objArrayItem){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
@@ -177,7 +176,9 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.appendChild(objLink);
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
+        i++;
       });
+      i=0;
       object2.objectArray.forEach(function(objArrayItem){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
@@ -187,6 +188,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.appendChild(objLink);
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
+        i++;
       });
       element.appendChild(objectList);
     }

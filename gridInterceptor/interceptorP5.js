@@ -48,9 +48,10 @@ funcNames.forEach(function(x) {
     } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!Interceptor.isCleared) {
         var cells = document.getElementsByClassName('textOutput-cell-content');
-        for (i = 0; i < cells.length; i++) {
-          cells[i].innerHTML = '';
-        }
+        console.log(cells);
+        [...cells].forEach(function(cell){
+          cell.innerHTML = '';
+        });
         programObjects = Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray);
         Interceptor.populateObjectDetails(Interceptor.setupObject, Interceptor.drawObject, summary, details);
         Interceptor.populateTable(programObjects,document);

@@ -35,6 +35,7 @@ funcNames = funcNames.filter(function(x) {
 });
 
 funcNames.forEach(function(x) {
+  var i = 0;
   var originalFunc = p5.prototype[x.name];
   p5.prototype[x.name] = function() {
     orgArg = arguments;
@@ -44,16 +45,18 @@ funcNames.forEach(function(x) {
       parent.document.getElementById('textOutput-content-summary').innerHTML = '';
     }
     if (frameCount == 1 && (x.module.localeCompare('Shape') === 0)) {
-      for (var i = 0; i < x.params.length; i++) {
-        if (x.params[i].description.indexOf('x-coordinate') > -1) {
-          xPosPrev = arguments[i];
-          xPosCurr = arguments[i];
+      i=0;
+      x.params.forEach(function(param) {
+        if (param.description.indexOf('x-coordinate') > -1) {
+          xPosPrev = orgArg[i];
+          xPosCurr = orgArg[i];
         }
-        if (x.params[i].description.indexOf('y-coordinate') > -1) {
-          yPosPrev = arguments[i];
-          yPosCurr = arguments[i];
+        if (param.description.indexOf('y-coordinate') > -1) {
+          yPosPrev = orgArg[i];
+          yPosCurr = orgArg[i];
         }
-      }
+        i++;
+      });
     } else if (frameCount > 1 && (frameCount % 1 == 0) && (x.module.localeCompare('Shape') === 0)) {
       // Pull out only the shapes in draw()
       if (frameCount != currFrame) {
@@ -73,23 +76,26 @@ funcNames.forEach(function(x) {
         });
       }
       // pull out only the x coord values and compare with prev value
-      for (var i = 0; i < x.params.length; i++) {
-        if (x.params[i].description.indexOf('y-coordinate') > -1) {
-          objects[objectCount - 1].yPosCurr = arguments[i];
+      i = 0;
+      x.params.some(function(param) {
+        if (param.description.indexOf('y-coordinate') > -1) {
+          objects[objectCount - 1].yPosCurr = orgArg[i];
           objects[objectCount - 1].yPosDiff = objects[objectCount - 1].yPosCurr - objects[objectCount - 1].yPosPrev;
           objects[objectCount - 1].yPosPrev = objects[objectCount - 1].yPosCurr;
-          break;
+          return true;
         }
-      }
-
-      for (var i = 0; i < x.params.length; i++) {
-        if (x.params[i].description.indexOf('x-coordinate') > -1) {
-          objects[objectCount - 1].xPosCurr = arguments[i];
+        i++;
+      });
+      i = 0;
+      x.params.some(function(param) {
+        if (param.description.indexOf('x-coordinate') > -1) {
+          objects[objectCount - 1].xPosCurr = orgArg[i];
           objects[objectCount - 1].xPosDiff = objects[objectCount - 1].xPosCurr - objects[objectCount - 1].xPosPrev;
           objects[objectCount - 1].xPosPrev = objects[objectCount - 1].xPosCurr;
-          break;
+          return true;
         }
-      }
+        i++;
+      });
 
       if (abs(objects[objectCount - 1].xPosDiff) > 0 || abs(objects[objectCount - 1].yPosDiff) > 0) {
         currNote = (1 - objects[objectCount - 1].yPosCurr / height) * (12); // mapping hieghts to notes from 1-100

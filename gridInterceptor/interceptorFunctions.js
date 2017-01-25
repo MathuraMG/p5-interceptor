@@ -66,16 +66,19 @@ gridInterceptor.prototype.populateObject = function(x, arguments, object, table,
 
 gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) {
   if (this.totalCount < 100) {
-    for (var i = 0; i < objectArray.length; i++) {
-      var cellLoc = objectArray[i].coordLoc.locY * this.noRows + objectArray[i].coordLoc.locX;
+    var that = this;
+    i=0;
+    objectArray = [].slice.call(objectArray);
+    objectArray.forEach(function(object){
+      var cellLoc = object.coordLoc.locY * that.noRows + object.coordLoc.locX;
       // add link in table
-
       var cellLink = documentPassed.createElement('a');
-      cellLink.innerHTML += objectArray[i].type;
+      cellLink.innerHTML += object.type;
       var objectId = '#object' + i;
       cellLink.setAttribute('href', objectId);
       documentPassed.getElementsByClassName('textOutput-cell-content')[cellLoc].appendChild(cellLink);
-    }
+      i++;
+    });
   }
 }
 
@@ -96,13 +99,14 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
   if (object2.objectCount > 0 || object1.objectCount > 0) {
     totObjectTypeCount = mergeObjRecursive(object1.objectTypeCount, object2.objectTypeCount);
     var keys = Object.keys(totObjectTypeCount);
-    for (var i = 0; i < keys.length; i++) {
-      elementSummary.innerHTML += totObjectTypeCount[keys[i]] + ' ' + keys[i] + ' ';
-    }
+    keys.forEach(function(key){
+      elementSummary.innerHTML += totObjectTypeCount[key] + ' ' + key + ' ';
+    });
 
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
+      i = 0;
       object1.objectArray.forEach(function(objArrayItem){
         var objectListItem = document.createElement('li');
         objectListItem.id = 'object' + i;
@@ -117,8 +121,9 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
             }
           }
         });
+        i++;
       });
-
+      i = 0;
       object2.objectArray.forEach(function(objArrayItem){
         var objectListItem = document.createElement('li');
         objectListItem.id = 'object' + (object1.objectArray.length + i);
@@ -133,6 +138,7 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
             }
           }
         });
+        i++;
       });
       elementDetail.appendChild(objectList);
     }

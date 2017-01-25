@@ -1,5 +1,5 @@
 function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
-  this.type= Interceptor.currentColor + object.name ,
+  this.type= Interceptor.currentColor + ' ' +  object.name ,
   this.location= '' ,
   this.coordinates= '',
   this.isMember = function() {
