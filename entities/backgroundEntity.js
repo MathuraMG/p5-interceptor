@@ -17,4 +17,4 @@ BackgroundEntity.handles = function(name) {
 
 BackgroundEntity.isParameter = true;
 
-BaseEntity.register(BackgroundEntity);
+Registry.register(BackgroundEntity);

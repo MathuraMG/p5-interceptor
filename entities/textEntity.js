@@ -29,4 +29,4 @@ TextEntity.handles = function(name) {
 
 TextEntity.isParameter = false;
 
-BaseEntity.register(TextEntity);
+Registry.register(TextEntity);

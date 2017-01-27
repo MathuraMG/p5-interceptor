@@ -23,7 +23,7 @@ textInterceptor.prototype.populateObject = function(x, arguments, object, table,
     }
   }
 
-  var entityClass = BaseEntity.entityFor(x.name);
+  var entityClass = Registry.entityFor(x.name);
 
   if (entityClass && !entityClass.isParameter) {
     objectArray[objectCount] = new entityClass(this, x, arguments, this.canvasDetails.width, this.canvasDetails.height);

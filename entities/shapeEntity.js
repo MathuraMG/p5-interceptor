@@ -65,4 +65,4 @@ ShapeEntity.handles = function(name) {
 
 ShapeEntity.isParameter = false;
 
-BaseEntity.register(ShapeEntity);
+Registry.register(ShapeEntity);

@@ -48,7 +48,6 @@ funcNames.forEach(function(x) {
     } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!Interceptor.isCleared) {
         var cells = document.getElementsByClassName('textOutput-cell-content');
-        console.log(cells);
         [...cells].forEach(function(cell){
           cell.innerHTML = '';
         });

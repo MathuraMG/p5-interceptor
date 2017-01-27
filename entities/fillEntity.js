@@ -17,4 +17,4 @@ FillEntity.handles = function(name) {
 
 FillEntity.isParameter = true;
 
-BaseEntity.register(FillEntity);
+Registry.register(FillEntity);
