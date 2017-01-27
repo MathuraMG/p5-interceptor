@@ -16,8 +16,12 @@ function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
 
   this.getLocation = function(object, arguments, canvasX, canvasY) { // eslint-disable-line
     var xCoord, yCoord;
-    for (var i = 0; i < arguments.length; i++) {
-      a = arguments[i];
+    arguments = [].slice.call(arguments);
+    var i = 0;
+
+    arguments.forEach(function(argument){
+      a = argument;
+
       if (object.params[i].description.indexOf('x-coordinate') > -1) {
         xCoord = a;
         this.coordinates += a + 'x,';
@@ -25,7 +29,8 @@ function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
         yCoord = a;
         this.coordinates += a + 'y';
       }
-    }
+      i++;
+    });
 
     if (xCoord < 0.4 * canvasX) {
       if (yCoord < 0.4 * canvasY) {
@@ -59,14 +64,18 @@ function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
     var xCoord, yCoord;
     var noRows = 10, noCols = 10;
     var locX, locY;
-    for (var i = 0; i < arguments.length; i++) {
-      a = arguments[i];
+    var i = 0;
+    arguments = [].slice.call(arguments);
+    arguments.forEach(function(argument){
+      a = argument;
+
       if (object.params[i].description.indexOf('x-coordinate') > -1) {
         xCoord = a;
       } else if (object.params[i].description.indexOf('y-coordinate') > -1) {
         yCoord = a;
       }
-    }
+      i++;
+    });
 
     locX = Math.floor((xCoord / canvasX) * noRows);
     locY = Math.floor((yCoord / canvasY) * noCols);
