@@ -166,8 +166,8 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
-      i=0;
-      object1.objectArray.forEach(function(objArrayItem){
+    
+      object1.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
         var objLink = document.createElement('a');
@@ -176,10 +176,9 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.appendChild(objLink);
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
-        i++;
       });
-      i=0;
-      object2.objectArray.forEach(function(objArrayItem){
+    
+      object2.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
         var objLink = document.createElement('a');
@@ -188,7 +187,6 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.appendChild(objLink);
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
-        i++;
       });
       element.appendChild(objectList);
     }

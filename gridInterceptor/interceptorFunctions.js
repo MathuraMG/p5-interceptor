@@ -67,9 +67,8 @@ gridInterceptor.prototype.populateObject = function(x, arguments, object, table,
 gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) {
   if (this.totalCount < 100) {
     var that = this;
-    i=0;
     objectArray = [].slice.call(objectArray);
-    objectArray.forEach(function(object){
+    objectArray.forEach(function(object,i){
       var cellLoc = object.coordLoc.locY * that.noRows + object.coordLoc.locX;
       // add link in table
       var cellLink = documentPassed.createElement('a');
@@ -77,7 +76,6 @@ gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) 
       var objectId = '#object' + i;
       cellLink.setAttribute('href', objectId);
       documentPassed.getElementsByClassName('textOutput-cell-content')[cellLoc].appendChild(cellLink);
-      i++;
     });
   }
 }
@@ -106,8 +104,7 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
-      i = 0;
-      object1.objectArray.forEach(function(objArrayItem){
+      object1.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectListItem.id = 'object' + i;
         objectList.appendChild(objectListItem);
@@ -121,10 +118,8 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
             }
           }
         });
-        i++;
       });
-      i = 0;
-      object2.objectArray.forEach(function(objArrayItem){
+      object2.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectListItem.id = 'object' + (object1.objectArray.length + i);
         objectList.appendChild(objectListItem);
@@ -138,7 +133,6 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
             }
           }
         });
-        i++;
       });
       elementDetail.appendChild(objectList);
     }
