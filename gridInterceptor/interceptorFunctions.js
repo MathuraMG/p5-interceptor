@@ -17,19 +17,19 @@ gridInterceptor.prototype.clearVariables = function(object) {
 }
 
 gridInterceptor.prototype.createShadowDOMElement = function(document) {
-  var contentTable = document.getElementById('textOutput-content-table');
+  var contentTable = document.getElementById('gridOutput-content-table');
   for (var i = 0; i < this.noRows; i++) {
     var row = document.createElement('tr');
 
     for (var j = 0; j < this.noCols; j++) {
       var col = document.createElement('td');
-      col.className = 'textOutput-cell-content';
+      col.className = 'gridOutput-cell-content';
       col.innerHTML = 'test';
       row.appendChild(col);
     }
     contentTable.appendChild(row);
   }
-  shadowDOMElement = document.getElementById('textOutput-content');
+  shadowDOMElement = document.getElementById('gridOutput-content');
 }
 gridInterceptor.prototype.populateObject = function(x, arguments, object, table, isDraw) {
   objectCount = object.objectCount;
@@ -75,7 +75,7 @@ gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) 
       cellLink.innerHTML += object.type;
       var objectId = '#object' + i;
       cellLink.setAttribute('href', objectId);
-      documentPassed.getElementsByClassName('textOutput-cell-content')[cellLoc].appendChild(cellLink);
+      documentPassed.getElementsByClassName('gridOutput-cell-content')[cellLoc].appendChild(cellLink);
     });
   }
 }

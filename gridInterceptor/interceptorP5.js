@@ -25,9 +25,9 @@ funcNames.forEach(function(x) {
     var element = document.getElementById(id);
     return element;
   };
-  var details = byID('textOutput-content-details');
-  var summary = byID('textOutput-content-summary');
-  var table = byID('textOutput-content-table');
+  var details = byID('gridOutput-content-details');
+  var summary = byID('gridOutput-content-summary');
+  var table = byID('gridOutput-content-table');
 
   p5.prototype[x.name] = function() {
     orgArg = arguments;
@@ -47,7 +47,7 @@ funcNames.forEach(function(x) {
       Interceptor.isCleared = false;
     } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!Interceptor.isCleared) {
-        var cells = document.getElementsByClassName('textOutput-cell-content');
+        var cells = document.getElementsByClassName('gridOutput-cell-content');
         [...cells].forEach(function(cell){
           cell.innerHTML = '';
         });

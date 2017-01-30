@@ -39,11 +39,7 @@ funcNames.forEach(function(x) {
   var originalFunc = p5.prototype[x.name];
   p5.prototype[x.name] = function() {
     orgArg = arguments;
-    if (frameCount === 0) {
-      parent.document.getElementById('textOutput-content-table').innerHTML = '';
-      parent.document.getElementById('textOutput-content-details').innerHTML = '';
-      parent.document.getElementById('textOutput-content-summary').innerHTML = '';
-    }
+
     if (frameCount == 1 && (x.module.localeCompare('Shape') === 0)) {
       i=0;
       x.params.forEach(function(param) {
