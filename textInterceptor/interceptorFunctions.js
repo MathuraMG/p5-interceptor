@@ -166,7 +166,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
-    
+
       object1.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
@@ -177,7 +177,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
       });
-    
+
       object2.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
@@ -193,4 +193,4 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
   }
 }
 
-var Interceptor = new textInterceptor();
+var textInterceptor = new textInterceptor();

@@ -140,4 +140,4 @@ gridInterceptor.prototype.populateObjectDetails = function(object1, object2, ele
 }
 
 
-var Interceptor = new gridInterceptor();
+var gridInterceptor = new gridInterceptor();

@@ -35,19 +35,19 @@ funcNames.forEach(function(x) {
       details.innerHTML = '';
       summary.innerHTML = '';
       table.innerHTML = '';
-      Interceptor.setupObject = Interceptor.populateObject(x, arguments, Interceptor.setupObject, table, false);
-      Interceptor.getSummary(Interceptor.setupObject, Interceptor.drawObject, summary);
-      Interceptor.populateTable(table, Interceptor.setupObject.objectArray);
+      textInterceptor.setupObject = textInterceptor.populateObject(x, arguments, textInterceptor.setupObject, table, false);
+      textInterceptor.getSummary(textInterceptor.setupObject, textInterceptor.drawObject, summary);
+      textInterceptor.populateTable(table, textInterceptor.setupObject.objectArray);
     } else if (frameCount % 100 == 0) {
-      Interceptor.drawObject = Interceptor.populateObject(x, arguments, Interceptor.drawObject, details, true);
-      Interceptor.isCleared = false;
+      textInterceptor.drawObject = textInterceptor.populateObject(x, arguments, textInterceptor.drawObject, details, true);
+      textInterceptor.isCleared = false;
     } else if (frameCount % 100 == 1) { // reset some of the variables
-      if (!Interceptor.isCleared) {
-        Interceptor.getSummary(Interceptor.setupObject, Interceptor.drawObject, summary);
-        Interceptor.populateTable(
-          table, Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray));
+      if (!textInterceptor.isCleared) {
+        textInterceptor.getSummary(textInterceptor.setupObject, textInterceptor.drawObject, summary);
+        textInterceptor.populateTable(
+          table, textInterceptor.setupObject.objectArray.concat(textInterceptor.drawObject.objectArray));
       }
-      Interceptor.drawObject = Interceptor.clearVariables(Interceptor.drawObject);
+      textInterceptor.drawObject = textInterceptor.clearVariables(textInterceptor.drawObject);
     }
     return originalFunc.apply(this, arguments);
   };
