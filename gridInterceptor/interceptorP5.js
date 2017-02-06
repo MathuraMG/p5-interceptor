@@ -48,7 +48,8 @@ funcNames.forEach(function(x) {
     } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!gridInterceptor.isCleared) {
         var cells = document.getElementsByClassName('gridOutput-cell-content');
-        [...cells].forEach(function(cell){
+        cells = [].slice.call(cells);
+        cells.forEach(function(cell){
           cell.innerHTML = '';
         });
         programObjects = gridInterceptor.setupObject.objectArray.concat(gridInterceptor.drawObject.objectArray);
