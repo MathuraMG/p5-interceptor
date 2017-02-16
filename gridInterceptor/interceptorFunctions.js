@@ -11,6 +11,7 @@ gridInterceptor.prototype = Object.create(baseInterceptor.prototype);
 
 gridInterceptor.prototype.clearVariables = function(object) {
   object.objectTypeCount = {};
+  object.objectArray = [];
   object.objectCount = 0;
   this.isCleared = true;
   return object;

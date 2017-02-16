@@ -6,6 +6,7 @@ textInterceptor.prototype = Object.create(baseInterceptor.prototype);
 
 textInterceptor.prototype.clearVariables = function(object) {
   object.objectTypeCount = {};
+  object.objectArray = [];
   object.objectCount = 0;
   this.isCleared = true;
   return object;
@@ -166,7 +167,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
-    
+
       object1.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
@@ -177,7 +178,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
           '; location = ' + objArrayItem['location'];
       });
-    
+
       object2.objectArray.forEach(function(objArrayItem,i){
         var objectListItem = document.createElement('li');
         objectList.appendChild(objectListItem);
