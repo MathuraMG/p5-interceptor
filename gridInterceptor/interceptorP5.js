@@ -48,7 +48,8 @@ funcNames.forEach(function(x) {
     } else if (frameCount % 20 == 1) { // reset some of the variables
       if (!Interceptor.isCleared) {
         var cells = document.getElementsByClassName('textOutput-cell-content');
-        [...cells].forEach(function(cell){
+        cells = [].slice.call(cells);
+        cells.forEach(function(cell){
           cell.innerHTML = '';
         });
         programObjects = Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray);
