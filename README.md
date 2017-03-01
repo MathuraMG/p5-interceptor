@@ -20,17 +20,18 @@ The code can be widely split into interceptors (modules that intercept the code 
 
 The interceptors now have the following class structure
 
---BaseInterceptor
-    --TextInterceptor
-    --GridInterceptor
+    * BaseInterceptor
+        * TextInterceptor
+        * GridInterceptor
     
 and the entities ( p5 functions ) have the following class structure
 
---BaseEntity
-  --BackgroundEntity
-  --FillEntity
-  --TextEntity
-  --ShapeEntity
+    * BaseEntity
+        * BackgroundEntity
+        * FillEntity
+        * TextEntity
+        * ShapeEntity
+        
   (additional entities will be added here)
 
 
