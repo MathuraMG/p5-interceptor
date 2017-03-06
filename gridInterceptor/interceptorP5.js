@@ -46,6 +46,7 @@ funcNames.forEach(function(x) {
       gridInterceptor.populateObject(x, arguments, gridInterceptor.drawObject, details, true);
       gridInterceptor.isCleared = false;
     } else if (frameCount % 20 == 1) { // reset some of the variables
+
       if (!gridInterceptor.isCleared) {
         var cells = document.getElementsByClassName('gridOutput-cell-content');
         cells = [].slice.call(cells);

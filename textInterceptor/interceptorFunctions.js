@@ -6,6 +6,7 @@ textInterceptor.prototype = Object.create(baseInterceptor.prototype);
 
 textInterceptor.prototype.clearVariables = function(object) {
   object.objectTypeCount = {};
+  object.objectArray = [];
   object.objectCount = 0;
   this.isCleared = true;
   return object;

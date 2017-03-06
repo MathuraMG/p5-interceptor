@@ -25,9 +25,9 @@ funcNames = allData['classitems'].map(function(x) {
 var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
 
 // create Oscillator node
-var oscillatorNode = audioCtx.createOscillator();
-var gainNode = audioCtx.createGain();
-var panNode = audioCtx.createStereoPanner();
+var oscillatorNodes = [];
+var gainNodes = [];
+var panNodes = [];
 
 funcNames = funcNames.filter(function(x) {
   var className = x['class'];
@@ -55,11 +55,28 @@ funcNames.forEach(function(x) {
       });
     } else if (frameCount > 1 && (frameCount % 1 == 0) && (x.module.localeCompare('Shape') === 0)) {
       // Pull out only the shapes in draw()
-      if (frameCount != currFrame) {
+      if (frameCount !== currFrame) {
         currFrame++;
         objectCount = 0;
       }
       objectCount++;
+
+      if(oscillatorNodes[objectCount - 1]){
+
+      } else {
+        console.log('creating');
+        let index = objectCount - 1;
+        oscillatorNodes[index] = audioCtx.createOscillator();
+        gainNodes[index] = audioCtx.createGain();
+        panNodes[index] = audioCtx.createStereoPanner();
+        oscillatorNodes[index].type = 'sine';
+        oscillatorNodes[index].frequency.value = baseFreq; // value in hertz
+        oscillatorNodes[index].start();
+        oscillatorNodes[index].connect(gainNodes[index]);
+        gainNodes[index].connect(panNodes[index]);
+        panNodes[index].connect(audioCtx.destination);
+        gainNodes[index].gain.value = 0.1;
+      }
 
       if (!objects[objectCount - 1]) {
         objects[objectCount - 1] = new Object({
@@ -101,23 +118,14 @@ funcNames.forEach(function(x) {
         xCoord = frameCount % 16 - 8;
         currVol = 2 * objectCount * Math.exp(-((xCoord + 2 * objectCount) * (xCoord + 2 * objectCount)));
         currPan = (objects[objectCount - 1].xPosCurr / width) * 2 - 1;
-        oscillatorNode.frequency.value = currLogFreq;
-        gainNode.gain.value = currVol;
-        panNode.pan.value = currPan;
+        // console.log(objectCount + ' - ' + currPan);
+        oscillatorNodes[objectCount - 1].frequency.value = currLogFreq;
+        gainNodes[objectCount - 1].gain.value = currVol;
+        panNodes[objectCount - 1].pan.value = currPan;
       } else {
-        gainNode.gain.value = 0;
+        gainNodes[objectCount - 1].gain.value = 0;
       }
     }
     return originalFunc.apply(this, arguments);
   };
 });
-
-window.onload = function() {
-  oscillatorNode.type = 'sine';
-  oscillatorNode.frequency.value = baseFreq; // value in hertz
-  oscillatorNode.start();
-  oscillatorNode.connect(gainNode);
-  gainNode.connect(panNode);
-  panNode.connect(audioCtx.destination);
-  gainNode.gain.value = 0;
-};
