@@ -18,16 +18,17 @@ function BaseEntity(Interceptor,object,arguments, canvasX, canvasY) {
     var xCoord, yCoord;
     arguments = [].slice.call(arguments);
     var i = 0;
+    var that = this;
+    that.coordinates = '';
 
     arguments.forEach(function(argument){
       a = argument;
-
       if (object.params[i].description.indexOf('x-coordinate') > -1) {
         xCoord = a;
-        this.coordinates += a + 'x,';
+        that.coordinates += a + 'x,';
       } else if (object.params[i].description.indexOf('y-coordinate') > -1) {
         yCoord = a;
-        this.coordinates += a + 'y';
+        that.coordinates += a + 'y';
       }
       i++;
     });
