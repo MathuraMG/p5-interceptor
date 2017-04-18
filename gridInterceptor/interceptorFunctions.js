@@ -76,7 +76,10 @@ gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) 
       cellLink.innerHTML += object.type;
       var objectId = '#object' + i;
       cellLink.setAttribute('href', objectId);
-      documentPassed.getElementsByClassName('gridOutput-cell-content')[cellLoc].appendChild(cellLink);
+      if(object.coordLoc.locY < that.noCols && object.coordLoc.locX < that.noRows ) {
+        documentPassed.getElementsByClassName('gridOutput-cell-content')[cellLoc].appendChild(cellLink);
+      }
+
     });
   }
 }
