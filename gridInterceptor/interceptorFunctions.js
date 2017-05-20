@@ -76,7 +76,7 @@ gridInterceptor.prototype.populateTable = function(objectArray, documentPassed) 
       cellLink.innerHTML += object.type;
       var objectId = '#object' + i;
       cellLink.setAttribute('href', objectId);
-      if(object.coordLoc.locY < that.noCols && object.coordLoc.locX < that.noRows ) {
+      if(object.coordLoc.locY < that.noCols && object.coordLoc.locX < that.noRows && object.coordLoc.locY> 0 && object.coordLoc.locX > 0 ) {
         documentPassed.getElementsByClassName('gridOutput-cell-content')[cellLoc].appendChild(cellLink);
       }
 
