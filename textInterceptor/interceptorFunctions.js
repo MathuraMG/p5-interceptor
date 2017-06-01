@@ -194,4 +194,4 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
   }
 }
 
-var Interceptor = new textInterceptor();
+var textInterceptor = new textInterceptor();

@@ -25,9 +25,9 @@ funcNames.forEach(function(x) {
     var element = document.getElementById(id);
     return element;
   };
-  var details = byID('textOutput-content-details');
-  var summary = byID('textOutput-content-summary');
-  var table = byID('textOutput-content-table');
+  var details = byID('gridOutput-content-details');
+  var summary = byID('gridOutput-content-summary');
+  var table = byID('gridOutput-content-table');
 
   p5.prototype[x.name] = function() {
     orgArg = arguments;
@@ -36,27 +36,27 @@ funcNames.forEach(function(x) {
       table.innerHTML = '';
       details.innerHTML = '';
       summary.innerHTML = '';
-      Interceptor.createShadowDOMElement(document);
-      Interceptor.setupObject =
-      Interceptor.populateObject(x, arguments, Interceptor.setupObject, details, false);
-      Interceptor.populateObjectDetails(Interceptor.setupObject, Interceptor.drawObject, summary, details);
-      Interceptor.populateTable(details, Interceptor.setupObject);
+      gridInterceptor.createShadowDOMElement(document);
+      gridInterceptor.setupObject =
+      gridInterceptor.populateObject(x, arguments, gridInterceptor.setupObject, details, false);
+      gridInterceptor.populateObjectDetails(gridInterceptor.setupObject, gridInterceptor.drawObject, summary, details);
+      gridInterceptor.populateTable(details, gridInterceptor.setupObject);
     } else if (frameCount % 20 == 0) {
-      Interceptor.drawObject =
-      Interceptor.populateObject(x, arguments, Interceptor.drawObject, details, true);
-      Interceptor.isCleared = false;
+      gridInterceptor.drawObject =
+      gridInterceptor.populateObject(x, arguments, gridInterceptor.drawObject, details, true);
+      gridInterceptor.isCleared = false;
     } else if (frameCount % 20 == 1) { // reset some of the variables
-      if (!Interceptor.isCleared) {
-        var cells = document.getElementsByClassName('textOutput-cell-content');
+      if (!gridInterceptor.isCleared) {
+        var cells = document.getElementsByClassName('gridOutput-cell-content');
         cells = [].slice.call(cells);
         cells.forEach(function(cell){
           cell.innerHTML = '';
         });
-        programObjects = Interceptor.setupObject.objectArray.concat(Interceptor.drawObject.objectArray);
-        Interceptor.populateObjectDetails(Interceptor.setupObject, Interceptor.drawObject, summary, details);
-        Interceptor.populateTable(programObjects,document);
+        programObjects = gridInterceptor.setupObject.objectArray.concat(gridInterceptor.drawObject.objectArray);
+        gridInterceptor.populateObjectDetails(gridInterceptor.setupObject, gridInterceptor.drawObject, summary, details);
+        gridInterceptor.populateTable(programObjects,document);
       }
-      Interceptor.drawObject = Interceptor.clearVariables(Interceptor.drawObject);
+      gridInterceptor.drawObject = gridInterceptor.clearVariables(gridInterceptor.drawObject);
     }
     return originalFunc.apply(this, arguments);
   };

@@ -2,9 +2,9 @@ var baseFreq = 440;
 var currLogFreq, currVol, currPan;
 
 // initialise parameters
-var objectCount = 0;
+var movingObjectCount = 0;
 var currFrame = 2;
-var objects = [];
+var movingObjects = [];
 
 funcNames = allData['classitems'].map(function(x) {
   if (x['overloads']) {
@@ -57,15 +57,14 @@ funcNames.forEach(function(x) {
       // Pull out only the shapes in draw()
       if (frameCount !== currFrame) {
         currFrame++;
-        objectCount = 0;
+        movingObjectCount = 0;
       }
-      objectCount++;
+      movingObjectCount++;
 
-      if(oscillatorNodes[objectCount - 1]){
+      if(oscillatorNodes[movingObjectCount - 1]){
 
       } else {
-        console.log('creating');
-        let index = objectCount - 1;
+        let index = movingObjectCount - 1;
         oscillatorNodes[index] = audioCtx.createOscillator();
         gainNodes[index] = audioCtx.createGain();
         panNodes[index] = audioCtx.createStereoPanner();
@@ -78,8 +77,8 @@ funcNames.forEach(function(x) {
         gainNodes[index].gain.value = 0.1;
       }
 
-      if (!objects[objectCount - 1]) {
-        objects[objectCount - 1] = new Object({
+      if (!movingObjects[movingObjectCount - 1]) {
+        movingObjects[movingObjectCount - 1] = new Object({
           xPosCurr: 0,
           xPosDiff: 0,
           xPosPrev: 0,
@@ -92,9 +91,9 @@ funcNames.forEach(function(x) {
       i = 0;
       x.params.some(function(param) {
         if (param.description.indexOf('y-coordinate') > -1) {
-          objects[objectCount - 1].yPosCurr = orgArg[i];
-          objects[objectCount - 1].yPosDiff = objects[objectCount - 1].yPosCurr - objects[objectCount - 1].yPosPrev;
-          objects[objectCount - 1].yPosPrev = objects[objectCount - 1].yPosCurr;
+          movingObjects[movingObjectCount - 1].yPosCurr = orgArg[i];
+          movingObjects[movingObjectCount - 1].yPosDiff = movingObjects[movingObjectCount - 1].yPosCurr - movingObjects[movingObjectCount - 1].yPosPrev;
+          movingObjects[movingObjectCount - 1].yPosPrev = movingObjects[movingObjectCount - 1].yPosCurr;
           return true;
         }
         i++;
@@ -102,28 +101,27 @@ funcNames.forEach(function(x) {
       i = 0;
       x.params.some(function(param) {
         if (param.description.indexOf('x-coordinate') > -1) {
-          objects[objectCount - 1].xPosCurr = orgArg[i];
-          objects[objectCount - 1].xPosDiff = objects[objectCount - 1].xPosCurr - objects[objectCount - 1].xPosPrev;
-          objects[objectCount - 1].xPosPrev = objects[objectCount - 1].xPosCurr;
+          movingObjects[movingObjectCount - 1].xPosCurr = orgArg[i];
+          movingObjects[movingObjectCount - 1].xPosDiff = movingObjects[movingObjectCount - 1].xPosCurr - movingObjects[movingObjectCount - 1].xPosPrev;
+          movingObjects[movingObjectCount - 1].xPosPrev = movingObjects[movingObjectCount - 1].xPosCurr;
           return true;
         }
         i++;
       });
 
-      if (abs(objects[objectCount - 1].xPosDiff) > 0 || abs(objects[objectCount - 1].yPosDiff) > 0) {
-        currNote = (1 - objects[objectCount - 1].yPosCurr / height) * (12); // mapping hieghts to notes from 1-100
+      if (abs(movingObjects[movingObjectCount - 1].xPosDiff) > 0 || abs(movingObjects[movingObjectCount - 1].yPosDiff) > 0) {
+        currNote = (1 - movingObjects[movingObjectCount - 1].yPosCurr / height) * (12); // mapping hieghts to notes from 1-100
         // fn = f0 * (a)n
         currLogFreq = baseFreq * Math.pow(Math.pow(2, (1 / 12)), currNote);
         currVol = 0.4;
         xCoord = frameCount % 16 - 8;
-        currVol = 2 * objectCount * Math.exp(-((xCoord + 2 * objectCount) * (xCoord + 2 * objectCount)));
-        currPan = (objects[objectCount - 1].xPosCurr / width) * 2 - 1;
-        // console.log(objectCount + ' - ' + currPan);
-        oscillatorNodes[objectCount - 1].frequency.value = currLogFreq;
-        gainNodes[objectCount - 1].gain.value = currVol;
-        panNodes[objectCount - 1].pan.value = currPan;
+        currVol = 2 * movingObjectCount * Math.exp(-((xCoord + 2 * movingObjectCount) * (xCoord + 2 * movingObjectCount)));
+        currPan = (movingObjects[movingObjectCount - 1].xPosCurr / width) * 2 - 1;
+        oscillatorNodes[movingObjectCount - 1].frequency.value = currLogFreq;
+        gainNodes[movingObjectCount - 1].gain.value = currVol;
+        panNodes[movingObjectCount - 1].pan.value = currPan;
       } else {
-        gainNodes[objectCount - 1].gain.value = 0;
+        gainNodes[movingObjectCount - 1].gain.value = 0;
       }
     }
     return originalFunc.apply(this, arguments);
