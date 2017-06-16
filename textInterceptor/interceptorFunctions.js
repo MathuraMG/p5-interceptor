@@ -150,20 +150,23 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
   this.prevTotalCount = this.totalCount;
   this.totalCount = object1.objectCount + object2.objectCount;
   element.innerHTML = '';
-  element.innerHTML += this.bgColor + ' coloured canvas is ' + this.canvasDetails.width + ' by ' +
-    this.canvasDetails.height + ' of area ' + this.canvasDetails.width * this.canvasDetails.height;
+  element.innerHTML +=
+  'Your output is a ' +
+  this.canvasDetails.width +
+  ' by ' +
+  this.canvasDetails.height +
+  ' ' +
+  this.bgColor +
+  ' canvas ' +
+  ' containing the following ';
   if (this.totalCount > 1) {
-    element.innerHTML += ' Contains ' + this.totalCount + ' objects - ';
+    element.innerHTML += this.totalCount + ' objects : ';
   } else {
-    element.innerHTML += ' Contains ' + this.totalCount + ' object - ';
+    element.innerHTML += this.totalCount + ' object : ';
   }
 
   if (object2.objectCount > 0 || object1.objectCount > 0) {
-    totObjectTypeCount = mergeObjRecursive(object1.objectTypeCount, object2.objectTypeCount);
-    var keys = Object.keys(totObjectTypeCount);
-    keys.forEach(function(key){
-        element.innerHTML += totObjectTypeCount[key] + ' ' + key + ' ';
-    });
+
     var objectList = document.createElement('ul');
 
     if (this.totalCount < 100) {
@@ -175,8 +178,12 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objLink.href = '#object' + i;
         objLink.innerHTML = objArrayItem['type'];
         objectListItem.appendChild(objLink);
-        objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
-          '; location = ' + objArrayItem['location'];
+        objectListItem.innerHTML +=
+        ' at ' +
+        objArrayItem['location'] +
+        ' covering ' +
+        objArrayItem['area'] +
+        ' of the canvas';
       });
 
       object2.objectArray.forEach(function(objArrayItem,i){
@@ -186,8 +193,12 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objLink.href = '#object' + (i + object1.objectArray.length);
         objLink.innerHTML = objArrayItem['type'];
         objectListItem.appendChild(objLink);
-        objectListItem.innerHTML += '; area = ' + objArrayItem['area'] +
-          '; location = ' + objArrayItem['location'];
+        objectListItem.innerHTML +=
+        ' at ' +
+        objArrayItem['location'] +
+        ' covering ' +
+        objArrayItem['area'] +
+        '% of the canvas';
       });
       element.appendChild(objectList);
     }

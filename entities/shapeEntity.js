@@ -1,13 +1,15 @@
 function ShapeEntity(Interceptor,shapeObject,arguments, canvasX, canvasY) {
   var self = this;
   BaseEntity.call(self,shapeObject,arguments, canvasX, canvasY);
-  this.area = 0;
+  this.areaAbs = 0;
   this.type = Interceptor.currentColor + ' ' + shapeObject.name;
+  this.area = 0;
 
   this.populate = function(shapeObject, arguments, canvasX, canvasY) {
     this.location = this.getLocation(shapeObject, arguments, canvasX, canvasY);
-    this.area = this.getObjectArea(shapeObject.name, arguments);
+    this.areaAbs = this.getObjectArea(shapeObject.name, arguments);
     this.coordLoc = this.canvasLocator(shapeObject, arguments, canvasX, canvasY);
+    this.area = (this.getObjectArea(shapeObject.name, arguments)*100/(canvasX*canvasY)).toFixed(2) + '%';
   }
 
   this.getAttributes = function() {
