@@ -198,7 +198,7 @@ textInterceptor.prototype.getSummary = function(object1, object2, element) {
         objArrayItem['location'] +
         ' covering ' +
         objArrayItem['area'] +
-        '% of the canvas';
+        ' of the canvas';
       });
       element.appendChild(objectList);
     }
