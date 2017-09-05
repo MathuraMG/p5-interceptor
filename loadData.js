@@ -13,6 +13,6 @@ function fetchJSONFile(path, callback) {
     httpRequest.send();
 }
 
-fetchJSONFile('/p5-interceptor/data.min.json', function(data){
+fetchJSONFile('./p5-interceptor/data.min.json', function(data){
   allData = data;
 });
