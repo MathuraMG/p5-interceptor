@@ -85,8 +85,9 @@ textInterceptor.prototype.populateTable = function(table, objectArray) {
           }
         }
       }
+
       for (var j = this.totalCount; j < this.prevTotalCount; j++) {
-        var tempRow = table.children[j];
+        var tempRow = table.children[this.totalCount];
         table.removeChild(tempRow);
       }
     } else if (this.prevTotalCount <= this.totalCount) {
